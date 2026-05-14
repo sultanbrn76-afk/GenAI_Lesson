@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <meta name="keywords" content="web design -software-personal portfolio "/>
+  <title>Sultan Borne</title>
+  <link rel="icon" href="resim.png" type="image/png"/>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- Dil ve SEO Etiketleri -->
+  <link rel="canonical" href="https://sultandev.com/index.html" />
+  <meta name="description" content="Sultan Borne - Software developer portfolio. Projects, course notes and technical skills.">
+
+  <meta name="author" content="Sultan Borne">
+
+  <!-- Tailwind CSS & Font Awesome -->
+  <script src="https://cdn.tailwindcss.com/"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root { 
+      --bg-color: #0a0f1a; 
+      --text-color: #e5e5e5; 
+      --header-bg: rgba(10, 15, 26, 0.9); 
+      --card-bg: rgba(255, 255, 255, 0.05); 
+      --card-border: rgba(255, 255, 255, 0.1); 
+      --primary-purple: #8b5cf6; 
+      --secondary-purple: #c084fc; 
+      --accent-glow: rgba(139, 92, 246, 0.5); 
+      --ascii-color: #8b5cf6; 
+      --ascii-opacity: 0.25; 
+    }
+
+    body.light-mode {
+      --bg-color: #f8fafc;
+      --text-color: #1e293b;
+      --header-bg: rgba(248, 250, 252, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --primary-purple: #7c3aed;
+      --secondary-purple: #4f46e5;
+      --accent-glow: rgba(124, 58, 237, 0.2);
+      --ascii-color: #7c3aed;
+      --ascii-opacity: 0.1;
+    }
+
+    * { transition: background-color 0.4s, color 0.4s, border-color 0.4s; scroll-behavior: smooth; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background-color: var(--bg-color); 
+      color: var(--text-color); 
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    #ascii-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: var(--ascii-opacity); }
+
+    header { 
+      background: var(--header-bg); 
+      backdrop-filter: blur(15px); 
+      border-bottom: 1px solid var(--card-border); 
+      position: fixed; top: 0; width: 100%; z-index: 2000; 
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-link { 
+      color: var(--secondary-purple); 
+      font-weight: 500;
+      transition: 0.3s;
+      cursor: pointer; 
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-link.active { 
+      color: var(--primary-purple); 
+      text-shadow: 0 0 8px var(--accent-glow); 
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--primary-purple);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .theme-toggle:hover { transform: rotate(15deg) scale(1.1); }
+
+    .mobile-menu-btn {
+      display: none;
+      font-size: 1.6rem;
+      color: var(--primary-purple);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--header-bg);
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 25px;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .nav-links.active { display: flex; }
+      .nav-link { width: 100%; text-align: center; font-size: 1.2rem; }
+    }
+
+    .project-card { 
+      background: var(--card-bg); border: 1px solid var(--card-border); 
+      padding: 30px; border-radius: 24px; cursor: pointer; transition: 0.3s; 
+      backdrop-filter: blur(5px);
+    }
+    .project-card:hover { border-color: var(--primary-purple); transform: translateY(-8px); box-shadow: 0 10px 30px var(--accent-glow); }
+    
+    .card-notes { max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s; }
+    .project-card.active .card-notes { max-height: 500px; opacity: 1; margin-top: 15px; border-top: 1px solid var(--card-border); padding-top: 15px; }
+
+    .training-item { 
+      display: flex; align-items: center; background: var(--card-bg); 
+      padding: 15px; border-radius: 15px; border: 1px solid var(--card-border); transition: 0.3s; 
+    }
+    .training-item:hover { transform: translateX(10px); border-color: var(--primary-purple); }
+
+    #ui-message {
+      position: fixed; top: 100px; right: 20px; background: var(--primary-purple); color: white;
+      padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 3000; display: none; animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    /* Chatbot Styles */
+    #chatbot-window { 
+      width: 340px; height: 500px; background: var(--bg-color); border: 1px solid var(--primary-purple); 
+      border-radius: 20px; position: fixed; bottom: 100px; right: 30px; z-index: 2000; 
+      display: none; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+    }
+    .chat-input-area { padding: 10px; border-top: 1px solid var(--card-border); display: flex; gap: 5px; background: var(--header-bg); }
+    .chat-input-area input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.2); color: var(--text-color); outline: none; }
+
+    .suggested-question {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+    .suggested-question:hover { border-color: var(--primary-purple); background: var(--primary-purple); color: white; }
+
+    footer { border-top: 1px solid var(--card-border); background: var(--card-bg); padding: 40px 20px; text-align: center; }
+  </style>
+</head>
+<body class="dark-mode">
+
+<canvas id="ascii-bg"></canvas>
+<div id="ui-message"></div>
+
+<header>
+  <nav class="nav-container">
+    <div class="text-2xl font-bold tracking-tighter">💎 BRN</div>
+    
+    <a href="index.html" class="theme-toggle" title="Türkçe" style="text-decoration: none;">
+        <span style="font-weight: bold; font-size: 14px;">TR</span>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Switch Theme">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index-en.html" class="nav-link active">Home</a>
+        <a href="hakkimda-en.html" class="nav-link">About</a>
+        <a href="iletisim-en.html" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="max-w-6xl mx-auto px-5">
+  <!-- HERO - Tam ekran ortalanmış hali -->
+  <section id="home" class="h-screen min-h-screen flex flex-col justify-center items-center text-center relative">
+    <!-- Sol Resim (Masaüstünde solda) -->
+        <div class="w-40 h-40 md:w-56 md:h-56 shrink-0 order-2 md:order-1 relative group">
+           <div class="absolute inset-0 bg-violet-600 rounded-full blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+           <div class="w-full h-full rounded-full overflow-hidden border-4 border-violet-500/30 shadow-[0_0_30px_rgba(139,92,246,0.3)] relative z-10">
+             <img src="res.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Sultan Borne Avatar Sol">
+           </div>
+        </div> 
+
+    <div class="flex flex-col items-center justify-center animate-fade-in">
+        <h1 class="text-5xl md:text-7xl font-bold text-violet-500 mb-4 tracking-tight drop-shadow-lg">Sultan Borne</h1>
+     <p class="text-xl md:text-2xl opacity-80 font-light mb-10">Software Developer • Student • Digital Artist</p>
+
+        
+        <div class="flex gap-8">
+          <a href="https://instagram.com/_sultanborne_" target="_blank" class="text-3xl text-violet-400 hover:text-violet-600 hover:scale-125 transition-all"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/in/sultan-borne-00b06a38a/" target="_blank" class="text-3xl text-violet-400 hover:text-violet-600 hover:scale-125 transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/sultanbrn76-afk" target="_blank" class="text-3xl text-violet-400 hover:text-violet-600 hover:scale-125 transition-all"><i class="fa-brands fa-github"></i></a>
+        </div>
+    </div>
+      <!-- Sağ Resim (Masaüstünde sağda) -->
+        <div class="w-40 h-40 md:w-56 md:h-56 shrink-0 order-3 md:order-3 relative group">
+           <div class="absolute inset-0 bg-violet-600 rounded-full blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+           <div class="w-full h-full rounded-full overflow-hidden border-4 border-violet-500/30 shadow-[0_0_30px_rgba(139,92,246,0.3)] relative z-10">
+             <img src="res1.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Sultan Borne Avatar Sağ">
+           </div>
+        </div>
+
+    </div>
+
+    <!-- Aşağı kaydır ikonu - Mutlak pozisyon ile en alta yakın sabitlendi -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-3xl text-violet-500 cursor-pointer" onclick="document.getElementById('projects').scrollIntoView()">
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- PROJELER -->
+  <section id="projects" class="py-24">
+  <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-violet-500">My Projects & Course Notes 📚</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Python -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <i class="fa-brands fa-python text-4xl mb-4 block text-violet-400"></i>
+      <h3 class="text-xl font-bold">Python</h3>
+      <div class="card-notes">
+        <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+          <li>Data Structures & Algorithms</li>
+          <li>Data Analysis with Pandas</li>
+          <li>Automation Scripts</li>
+          <li>API Development (Flask/Django)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HTML5 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <i class="fa-brands fa-html5 text-4xl mb-4 block text-violet-400"></i>
+      <h3 class="text-xl font-bold">HTML5</h3>
+      <div class="card-notes">
+        <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+          <li>Semantic Web Design</li>
+          <li>SEO Compatibility</li>
+          <li>Modern Form Structures</li>
+          <li>Canvas & Multimedia</li>
+        </ul>
+      </div>
+    </div>
+
+        </div>
+      </div>
+      <!-- CSS3 -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <i class="fa-brands fa-css3-alt text-4xl mb-4 block text-violet-400"></i>
+        <h3 class="text-xl font-bold">CSS3</h3>
+        <div class="card-notes">
+  <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+    <li>Flexbox & Grid Systems</li>
+    <li>Responsive (Mobile) Layout</li>
+    <li>Keyframe Animations</li>
+    <li>Using Tailwind CSS</li>
+  </ul>
+</div>
+</div>
+<!-- React -->
+<div class="project-card" onclick="toggleProject(this)">
+  <i class="fa-brands fa-react text-4xl mb-4 block text-violet-400"></i>
+  <h3 class="text-xl font-bold">React JS</h3>
+  <div class="card-notes">
+    <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+      <li>Component-Based Development</li>
+      <li>Hooks (useState, useEffect)</li>
+      <li>State Management</li>
+      <li>Single Page Applications (SPA)</li>
+    </ul>
+  </div>
+
+      </div>
+      <!-- C# -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <i class="fa-solid fa-code text-4xl mb-4 block text-violet-400"></i>
+        <h3 class="text-xl font-bold">C#</h3>
+        <div class="card-notes">
+          <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+            <li>Object-Oriented Programming</li>
+<li>.NET Core & WinForms</li>
+<li>Unity Game Engine Fundamentals</li>
+
+          </ul>
+        </div>
+      </div>
+      <!-- PHP -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <i class="fa-brands fa-php text-4xl mb-4 block text-violet-400"></i>
+        <h3 class="text-xl font-bold">PHP & MySQL</h3>
+        <div class="card-notes">
+          <ul class="list-disc list-inside space-y-2 opacity-80 text-sm">
+          <li>Dynamic Database Operations</li>
+<li>Session & Cookie Management</li>
+<li>CRUD Operations</li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOLCULUK -->
+  <section id="journey" class="py-20">
+  <h2 class="text-3xl font-bold text-center mb-12 text-violet-500">Profile & Journey</h2>
+  <div class="project-card mb-12 cursor-default text-center">
+    <h3 class="text-2xl text-violet-400 mb-4">Continuous Improvement</h3>
+    <p class="opacity-80 leading-relaxed max-w-3xl mx-auto text-lg">
+      On my software journey, I strive to keep myself constantly up-to-date, starting from the fundamentals. Here are some of the achievement certificates I have completed and proudly collected along the way.
+    </p>
+  </div>
+</section>
+
+
+    <h3 class="text-xl font-semibold mb-8 border-l-4 border-violet-500 pl-4">Certificates & Trainings</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="training-item"><i class="fa-brands fa-html5 text-violet-500 mr-3"></i><span>HTML5 & CSS3 Training</span></div>
+  <div class="training-item"><i class="fa-brands fa-python text-violet-500 mr-3"></i><span>Python Programming</span></div>
+  <div class="training-item"><i class="fa-brands fa-js text-violet-500 mr-3"></i><span>JavaScript Basics</span></div>
+  <div class="training-item"><i class="fa-solid fa-code text-violet-500 mr-3"></i><span>C# & Programming</span></div>
+  <div class="training-item"><i class="fa-solid fa-network-wired text-violet-500 mr-3"></i><span>Network Technologies</span></div>
+  <div class="training-item"><i class="fa-solid fa-brain text-violet-500 mr-3"></i><span>Introduction to Artificial Intelligence</span></div>
+  <div class="training-item"><i class="fa-solid fa-database text-violet-500 mr-3"></i><span>Database Management</span></div>
+  <div class="training-item"><i class="fa-solid fa-palette text-violet-500 mr-3"></i><span>Graphic Design</span></div>
+  <div class="training-item"><i class="fa-solid fa-hands-asl-interpreting text-violet-500 mr-3"></i><span>Sign Language Training</span></div>
+  <div class="training-item"><i class="fa-solid fa-fire text-violet-500 mr-3"></i><span>Motivation & Goals</span></div>
+  <div class="training-item"><i class="fa-solid fa-language text-violet-500 mr-3"></i><span>B2 Level English</span></div>
+</div>
+
+    </div>
+
+    <h3 class="text-xl font-semibold mt-16 mb-8 text-center">My İnterests</h3>
+    <div class="flex flex-wrap justify-center gap-6">
+      <div class="project-card text-center w-32 md:w-40"><i class="fa-solid fa-gamepad text-2xl mb-2 text-violet-400"></i><br>Gaming</div>
+      <div class="project-card text-center w-32 md:w-40"><i class="fa-solid fa-music text-2xl mb-2 text-violet-400"></i><br>music</div>
+      <div class="project-card text-center w-32 md:w-40"><i class="fa-solid fa-microchip text-2xl mb-2 text-violet-400"></i><br>Teknology</div>
+      <div class="project-card text-center w-32 md:w-40"><i class="fa-solid fa-network-wired text-2xl mb-2 text-violet-400"></i><br>Networking</div>
+      <div class="project-card text-center w-32 md:w-40"><i class="fa-solid fa-dumbbell text-2xl mb-2 text-violet-400"></i><br>Sports</div>
+    </div>
+  </section>
+
+  <!-- YETENEKLER -->
+  <section id="skills" class="py-20 mb-10">
+    <h2 class="text-3xl font-bold text-center mb-12 text-violet-500">Skills</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="project-card">
+        <h3 class="text-violet-400 font-bold mb-4 border-b border-white/10 pb-2 text-center">Frontend</h3>
+        <ul class="space-y-2 opacity-80">
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>HTML5 / CSS3</li>
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>Tailwind CSS</li>
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>JavaScript (React)</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <h3 class="text-violet-400 font-bold mb-4 border-b border-white/10 pb-2 text-center">Backend & VT</h3>
+        <ul class="space-y-2 opacity-80">
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>Python</li>
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>C# (.NET)</li>
+          <li><i class="fa-solid fa-check text-violet-500 mr-2"></i>MySQL</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <h3 class="text-violet-400 font-bold mb-4 border-b border-white/10 pb-2 text-center">languages</h3>
+        <ul class="space-y-2 opacity-80">
+          <li><i class="fa-solid fa-star text-violet-500 mr-2"></i>Turkish (Native)</li>
+          <li><i class="fa-solid fa-star text-violet-500 mr-2"></i>Kurdish (Native)</li>
+          <li><i class="fa-solid fa-star-half-stroke text-violet-500 mr-2"></i>English (B2 Level)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CHATBOT -->
+<div id="chatbot-window">
+  <div class="bg-violet-600 p-4 text-white flex justify-between items-center">
+    <span class="font-bold">💎 BRN Assistat</span>
+    <button onclick="toggleChat()" class="text-2xl">&times;</button>
+  </div>
+  <div id="chat-body" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 text-sm">
+    <div class="bg-white/10 p-3 rounded-xl self-start">Hello! What would you like to know about Sultan's portfolio?</div>
+    <div class="flex flex-wrap gap-2 mt-2" id="suggested-questions">
+       <div class="suggested-question" onclick="askQuestion('Who is Sultan Borne?')">Who is she?</div>
+<div class="suggested-question" onclick="askQuestion('What technologies does she know?')">Skills?</div>
+<div class="suggested-question" onclick="askQuestion('Where does she study?')">Education?</div>
+<div class="suggested-question" onclick="askQuestion('What are her goals?')">Goals?</div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Bir mesaj yazın..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button onclick="sendMessage()" class="bg-violet-500 p-2 rounded-lg text-white w-9 h-9 flex items-center justify-center"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+<button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-violet-600 rounded-full text-white shadow-xl z-[2001] flex items-center justify-center text-xl hover:scale-110 transition-transform">
+  <i class="fa-solid fa-comments"></i>
+</button>
+
+<!-- FOOTER -->
+<footer class="flex flex-col items-center gap-6">
+  <div class="flex gap-6">
+    <a href="https://instagram.com/_sultanborne_" target="_blank" class="text-violet-500 text-2xl hover:scale-125 transition-transform"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://linkedin.com/in/sultan-borne-00b06a38a" target="_blank" class="text-violet-500 text-2xl hover:scale-125 transition-transform"><i class="fa-brands fa-linkedin-in"></i></a>
+    <a href="https://github.com/sultanbrn76-afk" target="_blank" class="text-violet-500 text-2xl hover:scale-125 transition-transform"><i class="fa-brands fa-github"></i></a>
+  </div>
+  <p class="opacity-60 text-sm font-medium">© 2025 — 💎 BRN | All rights reserved.</p>
+</footer>
+
+<script>
+  /* TEMA YÖNETİMİ */
+  const themeIcon = document.getElementById('theme-icon');
+  function applyTheme(theme) {
+    if (theme === 'light') { document.body.classList.add('light-mode'); themeIcon.classList.replace('fa-moon', 'fa-sun'); }
+    else { document.body.classList.remove('light-mode'); themeIcon.classList.replace('fa-sun', 'fa-moon'); }
+  }
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    themeIcon.classList.toggle('fa-moon', !isLight); themeIcon.classList.toggle('fa-sun', isLight);
+  }
+  window.addEventListener('DOMContentLoaded', () => { applyTheme(localStorage.getItem('theme') || 'dark'); });
+
+  /* MOBİL MENÜ */
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const icon = document.getElementById('menu-icon');
+    links.classList.toggle('active');
+    if (links.classList.contains('active')) icon.classList.replace('fa-bars', 'fa-xmark');
+    else icon.classList.replace('fa-xmark', 'fa-bars');
+  }
+
+  /* MESAJ GÖSTERME */
+  function showUIMessage(text) {
+    const box = document.getElementById('ui-message');
+    box.textContent = text;
+    box.style.display = 'block';
+    setTimeout(() => box.style.display = 'none', 3000);
+  }
+
+  /* KART KONTROLÜ */
+  function toggleProject(card) {
+    const isActive = card.classList.contains('active');
+    document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
+    if (!isActive) card.classList.add('active');
+  }
+
+  /* ASCII PARÇACIKLARI */
+  const canvas = document.getElementById('ascii-bg'), ctx = canvas.getContext('2d');
+  let particles = [];
+  const mouse = { x: null, y: null, radius: 100 };
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+  class Particle {
+    constructor(x, y) { this.x = x; this.y = y; this.bx = x; this.by = y; this.c = "01<>{}$#!"[Math.floor(Math.random() * 9)]; this.d = Math.random() * 20 + 5; }
+    draw() { ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--ascii-color').trim(); ctx.font = '14px monospace'; ctx.fillText(this.c, this.x, this.y); }
+    update() {
+      let dx = mouse.x - this.x, dy = mouse.y - this.y, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < mouse.radius) { let f = (mouse.radius - dist) / mouse.radius; this.x -= (dx / dist) * f * this.d; this.y -= (dy / dist) * f * this.d; }
+      else { this.x -= (this.x - this.bx) / 15; this.y -= (this.y - this.by) / 15; }
+    }
+  }
+  function initASCII() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight; particles = [];
+    for (let y = 0; y < canvas.height; y += 45) { for (let x = 0; x < canvas.width; x += 45) { particles.push(new Particle(x, y)); } }
+  }
+  function animate() { 
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    particles.forEach(p => { p.update(); p.draw(); }); 
+    requestAnimationFrame(animate); 
+  }
+
+  initASCII(); animate();
+  window.addEventListener('resize', initASCII);
+
+  /* CHATBOT LOGIC */
+  const chatResponses = {
+   "contact": "You can reach me at sultan.brn.76@gmail.com or through the form here.",
+"social": "Active on GitHub, LinkedIn and Instagram under the username 'sultanbrn'.",
+"message": "You can send a direct message using the 'Quick Message' form on this page.",
+"technology": "Uses Python, React, C#, PHP and MySQL technologies.",
+"who": "Sultan Borne is a Sinop University student and a software developer.",
+"university": "Studies in the Internet and Network Technologies department at Sinop University.",
+"language": "Speaks Turkish, Kurdish and English at B2 level.",
+"goal": "Primary goals include cybersecurity and learning new languages.",
+"highschool": "Graduate of Sancaktepe 75th Year DMO MTAL in Information Technologies.",
+"interest": "Interested in technology, networking, gaming and music.",
+"greetings": "Peace be upon you.",
+"short_greetings": "Peace."
+
+  };
+
+  function toggleChat() { 
+    const win = document.getElementById('chatbot-window'); 
+    win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; 
+  }
+
+  function askQuestion(q) {
+    document.getElementById('chat-input').value = q;
+    sendMessage();
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input'), body = document.getElementById('chat-body');
+    const msg = input.value.trim().toLowerCase();
+    if (!msg) return;
+
+    const userDiv = document.createElement('div');
+    userDiv.className = "bg-violet-600 text-white p-2 rounded-xl self-end max-w-[80%]";
+    userDiv.textContent = input.value;
+    body.appendChild(userDiv);
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      let botText = "Üzgünüm, bu soruyu tam anlayamadım. Lütfen 'Yetenekler' veya 'Eğitim' gibi anahtar kelimeler deneyin.";
+      for(let key in chatResponses) {
+        if(msg.includes(key)) { botText = chatResponses[key]; break; }
+      }
+      const botDiv = document.createElement('div');
+      botDiv.className = "bg-white/10 p-3 rounded-xl self-start max-w-[80%]";
+      botDiv.textContent = botText;
+      body.appendChild(botDiv);
+      body.scrollTop = body.scrollHeight;
+    }, 800);
+  }
+</script>
+</body>
+</html>

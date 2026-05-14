@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="keywords" content="web tasarım- yaılım-kişisel portfolio "/>
+  <title>Hakkımda</title> 
+  <link rel="icon" href="resim.png" type="image/png">
+  
+  <!-- Tailwind CSS & Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root { 
+      --bg-color: #0a0f1a; 
+      --text-color: #e5e5e5; 
+      --header-bg: rgba(10, 15, 26, 0.9); 
+      --card-bg: rgba(255, 255, 255, 0.05); 
+      --card-border: rgba(255, 255, 255, 0.1); 
+      --primary-purple: #8b5cf6; 
+      --secondary-purple: #c084fc; 
+      --accent-glow: rgba(139, 92, 246, 0.5); 
+      --ascii-color: #8b5cf6; 
+      --ascii-opacity: 0.25; 
+    }
+
+    body.light-mode {
+      --bg-color: #f8fafc;
+      --text-color: #1e293b;
+      --header-bg: rgba(248, 250, 252, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --primary-purple: #7c3aed;
+      --secondary-purple: #4f46e5;
+      --accent-glow: rgba(124, 58, 237, 0.2);
+      --ascii-color: #7c3aed;
+      --ascii-opacity: 0.1;
+    }
+
+    * { transition: background-color 0.4s, color 0.4s, border-color 0.4s; scroll-behavior: smooth; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background-color: var(--bg-color); 
+      color: var(--text-color); 
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    #ascii-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: var(--ascii-opacity); }
+
+    /* Header & Navigasyon */
+    header { 
+      background: var(--header-bg); 
+      backdrop-filter: blur(15px); 
+      border-bottom: 1px solid var(--card-border); 
+      position: fixed; top: 0; width: 100%; z-index: 2000; 
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-link { 
+      color: var(--secondary-purple); 
+      font-weight: 500;
+      transition: 0.3s;
+      cursor: pointer; 
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-link.active { 
+      color: var(--primary-purple); 
+      text-shadow: 0 0 8px var(--accent-glow); 
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--primary-purple);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      font-size: 1.6rem;
+      color: var(--primary-purple);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--header-bg);
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 25px;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .nav-links.active { display: flex; }
+      .nav-link { width: 100%; text-align: center; font-size: 1.2rem; }
+    }
+
+    .section-content { padding: 120px 20px 60px; max-width: 1100px; margin: auto; }
+
+    .content-box { 
+      background: var(--card-bg); border: 1px solid var(--card-border); 
+      padding: 40px; border-radius: 24px; backdrop-filter: blur(5px);
+      margin-bottom: 40px;
+    }
+
+    /* Roadmap */
+    .roadmap-container { position: relative; padding: 50px 0; display: flex; flex-direction: column; align-items: center; }
+    .roadmap-svg { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 300px; height: 100%; opacity: 0.3; z-index: 1; }
+    .roadmap-step { position: relative; z-index: 2; width: 100%; max-width: 850px; display: flex; justify-content: flex-start; margin-bottom: 50px; }
+    .roadmap-step:nth-child(even) { justify-content: flex-end; }
+    .roadmap-content { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 18px; width: 45%; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .roadmap-marker { width: 20px; height: 20px; background: var(--primary-purple); border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 15px var(--primary-purple); }
+
+    /* Goal Grid */
+    .goal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 25px; }
+    .goal-item { 
+      display: flex; align-items: center; justify-content: center; background: var(--card-bg); 
+      padding: 15px; border-radius: 15px; border: 1px solid var(--card-border); transition: 0.3s; 
+      font-weight: 600; text-align: center; color: var(--text-color); cursor: default;
+    }
+    .goal-item:hover { transform: translateY(-5px); border-color: var(--primary-purple); box-shadow: 0 5px 15px var(--accent-glow); }
+
+    /* Chatbot */
+    #chatbot-window { 
+      width: 340px; height: 500px; background: var(--bg-color); border: 1px solid var(--primary-purple); 
+      border-radius: 20px; position: fixed; bottom: 100px; right: 30px; z-index: 2000; 
+      display: none; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+    }
+    .suggested-question { background: var(--card-bg); border: 1px solid var(--card-border); padding: 5px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .suggested-question:hover { background: var(--primary-purple); color: white; }
+
+    @media(max-width: 768px) {
+      .roadmap-content { width: 85%; }
+      .roadmap-step, .roadmap-step:nth-child(even) { justify-content: center; }
+      .roadmap-marker, .roadmap-svg { display: none; }
+    }
+    
+    footer { border-top: 1px solid var(--card-border); background: var(--card-bg); padding: 40px 20px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<canvas id="ascii-bg"></canvas>
+
+<header>
+  <nav class="nav-container">
+    <div class="text-2xl font-bold tracking-tighter">💎 BRN</div>
+    
+    <a href="hakkimda-en.html" class="theme-toggle" title="English" style="text-decoration: none;">
+        <span style="font-weight: bold; font-size: 14px;">EN</span>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Temayı Değiştir">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link active">Anasayfa</a>
+        <a href="hakkimda.html" class="nav-link">Hakkımda</a>
+        <a href="iletisim.html" class="nav-link">İletişim</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="section-content">
+  <h1 class="text-4xl font-bold text-center mb-10 text-violet-500">Ben Kimim?</h1>
+
+  <div class="content-box">
+    <p class="text-lg leading-relaxed text-center">
+      Merhaba! Ben <strong>Sultan Borne</strong>Merhaba! Ben Sultan. İnternet ve Ağ Teknolojileri bölümünde okuyan, kendini geliştirmeye hevesli ve yeni şeyler öğrenmeyi seven bir öğrenciyim. Yazılım, web tasarımı ve teknoloji alanlarında aktif olarak çalışıyorum; projelerimde hem estetiğe hem de işlevselliğe önem veriyorum.
+
+Sorgulayıcı yapım ve kararlı tutumum sayesinde karşılaştığım problemlere çözüm üretmekten keyif alıyorum. Odaklı, özgüvenli ve açık fikirli bir kişiliğe sahibim
+    </p>
+    <p class="mt-4 opacity-80 italic text-center">
+      "Sadece kod yazmak değil, yazdığım kodun bir hikayesi ve faydası olması benim için önemli."
+    </p>
+  </div>
+
+  <!-- EĞİTİM YOL HARİTASI -->
+  <h2 class="text-2xl font-bold text-violet-400 mb-6 border-l-4 border-violet-600 pl-4">Eğitim Geçmişi</h2>
+  <div class="roadmap-container">
+    <svg class="roadmap-svg" viewBox="0 0 200 600" fill="none">
+      <path d="M100 0 C150 100, 50 200, 100 300 C150 400, 50 500, 100 600" stroke="var(--primary-purple)" stroke-width="4" stroke-dasharray="8 8"/>
+    </svg>
+
+    <div class="roadmap-step">
+      <div class="roadmap-marker"></div>
+      <div class="roadmap-content">
+        <h4 class="text-violet-500 text-sm font-bold">2025 - Devam</h4>
+        <p class="font-semibold text-sm">İnternet ve Ağ Teknolojileri</p>
+        <span class="text-xs opacity-60">Sinop Üniversitesi, Ayancık MYO</span>
+      </div>
+    </div>
+
+    <div class="roadmap-step">
+      <div class="roadmap-marker"></div>
+      <div class="roadmap-content">
+        <h4 class="text-violet-500 text-sm font-bold">2015 - 2019</h4>
+        <p class="font-semibold text-sm">Bilişim / Web Tasarım</p>
+        <span class="text-xs opacity-60">Sancaktepe 75. Yıl DMO MTAL</span>
+      </div>
+    </div>
+
+    <div class="roadmap-step">
+      <div class="roadmap-marker"></div>
+      <div class="roadmap-content">
+        <h4 class="text-violet-500 text-sm font-bold">2012 - 2015</h4>
+        <p class="font-semibold text-sm">Orta Okul</p>
+        <span class="text-xs opacity-60">İstanbul / Çekmeköy</span>
+      </div>
+    </div>
+
+    <div class="roadmap-step">
+      <div class="roadmap-marker"></div>
+      <div class="roadmap-content">
+        <h4 class="text-violet-500 text-sm font-bold">İlk Adımlar</h4>
+        <p class="font-semibold text-sm">İlkokul</p>
+        <span class="text-xs opacity-60">Suveren / Iğdır</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GELİŞTİRİLECEK ALANLAR -->
+  <h2 class="text-2xl font-bold text-violet-400 mt-12 mb-6 border-l-4 border-violet-600 pl-4">Geliştirilecek Alanlar</h2>
+  <div class="goal-grid">
+    <div class="goal-item"><i class="fa-solid fa-language mr-2 text-violet-500"></i> Rusça</div>
+    <div class="goal-item"><i class="fa-solid fa-shield-halved mr-2 text-violet-500"></i> Siber Güvenlik</div>
+    <div class="goal-item"><i class="fa-brands fa-react mr-2 text-violet-500"></i> React</div>
+    <div class="goal-item"><i class="fa-solid fa-microchip mr-2 text-violet-500"></i> Assembly</div>
+    <div class="goal-item"><i class="fa-solid fa-database mr-2 text-violet-500"></i> SQL</div>
+    <div class="goal-item"><i class="fa-brands fa-golang mr-2 text-violet-500"></i> Go</div>
+  </div>
+</main>
+
+<!-- CHATBOT -->
+<div id="chatbot-window">
+  <div class="bg-violet-600 p-4 text-white flex justify-between items-center">
+    <span class="font-bold">💎 BRN Asistan</span>
+    <button onclick="toggleChat()" class="text-2xl">&times;</button>
+  </div>
+  <div id="chat-body" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 text-sm">
+    <div class="bg-white/10 p-3 rounded-xl self-start">Merhaba! Sultan'ın geçmişi ve hedefleri hakkında ne bilmek istersiniz?</div>
+    <div class="flex flex-wrap gap-2 mt-2">
+        <div class="suggested-question" onclick="askQuestion('Nerede okuyor?')">Üniversite?</div>
+        <div class="suggested-question" onclick="askQuestion('Diller neler?')">Diller?</div>
+        <div class="suggested-question" onclick="askQuestion('Lise eğitimi?')">Lise?</div>
+        <div class="suggested-question" onclick="askQuestion('İlgi alanları?')">İlgi Alanları?</div>
+    </div>
+  </div>
+  <div class="flex p-2 border-t border-white/10 gap-2">
+    <input type="text" id="chat-input" class="flex-1 bg-black/20 p-2 rounded-lg text-white outline-none" placeholder="wrrite..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button onclick="sendMessage()" class="bg-violet-500 p-2 rounded-lg text-white w-10 h-10 flex items-center justify-center"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+<button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-violet-600 rounded-full text-white shadow-xl z-[2001] flex items-center justify-center text-xl hover:scale-110 transition-transform">
+  <i class="fa-solid fa-comments"></i>
+</button>
+
+<footer class="flex flex-col items-center gap-6 py-10">
+  <p class="opacity-60 text-sm font-medium">© 2025 — 💎 BRN | All rights reserved.</p>
+</footer>
+
+<script>
+  /* TEMA YÖNETİMİ */
+  const themeIcon = document.getElementById('theme-icon');
+  
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.body.classList.add('light-mode');
+      themeIcon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+      document.body.classList.remove('light-mode');
+      themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+  }
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    themeIcon.classList.toggle('fa-moon', !isLight);
+    themeIcon.classList.toggle('fa-sun', isLight);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    applyTheme(localStorage.getItem('theme') || 'dark');
+  });
+
+  /* MOBİL MENÜ */
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const icon = document.getElementById('menu-icon');
+    links.classList.toggle('active');
+    if (links.classList.contains('active')) icon.classList.replace('fa-bars', 'fa-xmark');
+    else icon.classList.replace('fa-xmark', 'fa-bars');
+  }
+
+  /* ASCII ANİMASYONU */
+  const canvas = document.getElementById('ascii-bg'), ctx = canvas.getContext('2d');
+  let particles = [];
+  const mouse = { x: null, y: null, radius: 100 };
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+  class AsciiParticle {
+    constructor(x, y) { this.x = x; this.y = y; this.bx = x; this.by = y; this.c = "01<>{}$#!"[Math.floor(Math.random() * 9)]; this.d = Math.random() * 20 + 5; }
+    draw() {
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--ascii-color').trim(); 
+      ctx.font = '14px monospace'; ctx.fillText(this.c, this.x, this.y);
+    }
+    update() {
+      let dx = mouse.x - this.x, dy = mouse.y - this.y, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < mouse.radius) {
+        let f = (mouse.radius - dist) / mouse.radius;
+        this.x -= (dx / dist) * f * this.d;
+        this.y -= (dy / dist) * f * this.d;
+      } else {
+        this.x -= (this.x - this.bx) / 15;
+        this.y -= (this.y - this.by) / 15;
+      }
+    }
+  }
+
+  function initASCII() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    particles = [];
+    for (let y = 0; y < canvas.height; y += 45) {
+      for (let x = 0; x < canvas.width; x += 45) { particles.push(new AsciiParticle(x, y)); }
+    }
+  }
+
+  function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+  initASCII(); animate();
+  window.addEventListener('resize', initASCII);
+
+  /* CHATBOT LOGIC */
+  const responses = {
+    "kimdir": "Sultan Borne; yazılım meraklısı, öğrenci ve dijital sanatçıdır.",
+    "okuyor": "Sinop Üniversitesi, Ayancık MYO'da İnternet ve Ağ Teknolojileri okuyor.",
+    "dil": "Türkçe, Kürtçe ve B2 İngilizce biliyor. Ayrıca Rusça öğrenmeyi hedefliyor.",
+    "lise": "Sancaktepe 75. Yıl DMO MTAL Bilişim bölümü mezunudur.",
+    "hedef": "Siber güvenlik, Rusça ve Go dili hedefleri arasındadır.",
+    "yetenek": "Python, React, C# ve MySQL gibi dillerde kendini geliştiriyor.",
+    "ilgi": "Oyun, teknoloji ve network sistemleri ana ilgi alanlarıdır.",
+    "iletişim": "İletişim sayfasından veya sosyal medyadan ulaşabilirsiniz.",
+    "frontend": "HTML, CSS ve React ile modern arayüzler tasarlıyor.",
+    "backend": "Python ve C# ile sunucu taraflı çözümler üretiyor.",
+    "selamün aleyküm ":"aleykümesselammmm",
+    "sa":"as"
+  };
+
+  function toggleChat() { 
+    const win = document.getElementById('chatbot-window'); 
+    win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; 
+  }
+
+  function askQuestion(q) {
+    document.getElementById('chat-input').value = q;
+    sendMessage();
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input'), body = document.getElementById('chat-body');
+    const msg = input.value.trim().toLowerCase();
+    if (!msg) return;
+
+    const userDiv = document.createElement('div');
+    userDiv.className = "bg-violet-600 text-white p-2 rounded-xl self-end max-w-[80%]";
+    userDiv.textContent = input.value;
+    body.appendChild(userDiv);
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      let text = "Bunu henüz öğrenmedim ama eğitim veya yetenekler hakkında sorabilirsiniz.";
+      for(let k in responses) { if(msg.includes(k)) { text = responses[k]; break; } }
+      const botDiv = document.createElement('div');
+      botDiv.className = "bg-white/10 p-3 rounded-xl self-start max-w-[80%]";
+      botDiv.textContent = text;
+      body.appendChild(botDiv);
+      body.scrollTop = body.scrollHeight;
+    }, 800);
+  }
+</script>
+</body>
+</html>

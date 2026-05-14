@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="keywords" content="web design -software-personal portfolio "/>
+  <title>Communication</title>
+	<link rel="icon" href="resim.png" type="image/png">
+  
+  <!-- Tailwind CSS & Font Awesome -->
+  <script src="https://cdn.tailwindcss.com/"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root { 
+      --bg-color: #0a0f1a; 
+      --text-color: #e5e5e5; 
+      --header-bg: rgba(10, 15, 26, 0.9); 
+      --card-bg: rgba(255, 255, 255, 0.05); 
+      --card-border: rgba(255, 255, 255, 0.1); 
+      --primary-purple: #8b5cf6; 
+      --secondary-purple: #c084fc; 
+      --accent-glow: rgba(139, 92, 246, 0.5); 
+      --ascii-color: #8b5cf6; 
+      --ascii-opacity: 0.25; 
+    }
+
+    body.light-mode {
+      --bg-color: #f8fafc;
+      --text-color: #1e293b;
+      --header-bg: rgba(248, 250, 252, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --primary-purple: #7c3aed;
+      --secondary-purple: #4f46e5;
+      --accent-glow: rgba(124, 58, 237, 0.2);
+      --ascii-color: #7c3aed;
+      --ascii-opacity: 0.1;
+    }
+
+    * { transition: background-color 0.4s, color 0.4s, border-color 0.3s; scroll-behavior: smooth; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background-color: var(--bg-color); 
+      color: var(--text-color); 
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    #ascii-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: var(--ascii-opacity); }
+
+    header { 
+      background: var(--header-bg); 
+      backdrop-filter: blur(15px); 
+      border-bottom: 1px solid var(--card-border); 
+      position: fixed; top: 0; width: 100%; z-index: 2000; 
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-link { 
+      color: var(--secondary-purple); 
+      font-weight: 500;
+      transition: 0.3s;
+      cursor: pointer; 
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-link.active { 
+      color: var(--primary-purple); 
+      text-shadow: 0 0 8px var(--accent-glow); 
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--primary-purple);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      font-size: 1.6rem;
+      color: var(--primary-purple);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--header-bg);
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 25px;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .nav-links.active { display: flex; }
+      .nav-link { width: 100%; text-align: center; font-size: 1.2rem; }
+    }
+
+    .section-content { padding: 120px 20px 60px; max-width: 1100px; margin: auto; }
+
+    .contact-card { 
+      background: var(--card-bg); border: 1px solid var(--card-border); 
+      padding: 30px; border-radius: 24px; backdrop-filter: blur(12px);
+      height: 100%;
+    }
+
+    .form-group { margin-bottom: 15px; }
+    
+    input, textarea {
+      width: 100%; padding: 12px 15px; margin-top: 5px;
+      background: rgba(0,0,0,0.05); border: 1px solid var(--card-border);
+      border-radius: 12px; color: var(--text-color); outline: none; font-size: 0.95rem;
+    }
+
+    input:focus, textarea:focus { border-color: var(--primary-purple); }
+
+    .map-container { 
+      overflow: hidden; border-radius: 18px; border: 1px solid var(--card-border); height: 250px; position: relative;
+    }
+    .map-label {
+        position: absolute; top: 10px; left: 10px; background: var(--primary-purple);
+        color: white; padding: 3px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; z-index: 10;
+    }
+
+    #ui-message {
+      position: fixed; top: 100px; right: 20px; background: var(--primary-purple); color: white;
+      padding: 10px 20px; border-radius: 10px; display: none; z-index: 3000;
+    }
+
+    /* Chatbot Styles */
+    #chatbot-window { 
+      width: 340px; height: 500px; background: var(--bg-color); border: 1px solid var(--primary-purple); 
+      border-radius: 20px; position: fixed; bottom: 100px; right: 30px; z-index: 2000; 
+      display: none; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+    }
+    .chat-input-area { padding: 10px; border-top: 1px solid var(--card-border); display: flex; gap: 5px; background: var(--header-bg); }
+    .chat-input-area input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.2); color: var(--text-color); outline: none; }
+    
+    .suggested-question {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+    .suggested-question:hover { border-color: var(--primary-purple); background: var(--primary-purple); color: white; }
+
+    footer { border-top: 1px solid var(--card-border); background: var(--card-bg); padding: 30px 20px; }
+  </style>
+</head>
+<body>
+
+<canvas id="ascii-bg"></canvas>
+<div id="ui-message"></div>
+
+<header>
+  <nav class="nav-container">
+    <div class="text-2xl font-bold tracking-tighter">💎 BRN</div>
+    
+    <a href="iletisim.html" class="theme-toggle" title="Türkçe" style="text-decoration: none;">
+        <span style="font-weight: bold; font-size: 14px;">TR</span>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Switch Theme">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+
+      <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index-en.html" class="nav-link active">Home</a>
+        <a href="hakkimda-en.html" class="nav-link">About</a>
+        <a href="iletisim-en.html" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="section-content">
+  <h1 class="text-3xl font-bold text-center mb-8 text-violet-500">Let's contact</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-12">
+    <!-- İletişim Bilgileri -->
+    <div class="contact-card">
+      <h3 class="text-xl text-violet-400 mb-6 font-semibold border-b border-white/10 pb-3">İnformation</h3>
+      <div class="space-y-4 mb-6">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-violet-600/20 rounded-full flex items-center justify-center text-violet-500">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div>
+            <p class="text-xs opacity-60">E-Mail</p>
+            <p class="text-sm font-medium">sultan.brn.76@gmail.com</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-violet-600/20 rounded-full flex items-center justify-center text-violet-500">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div>
+            <p class="text-xs opacity-60">Location</p>
+            <p class="text-sm font-medium">Sinop & İstanbul, Türkiye</p>
+          </div>
+        </div>
+      </div>
+      
+      <h4 class="text-sm font-bold text-violet-400 mb-4">Social Media</h4>
+      <div class="flex gap-4 mb-6">
+        <a href="https://github.com/sultanbrn76-afk" target="_blank" class="w-10 h-10 bg-violet-600/10 rounded-lg flex items-center justify-center text-violet-400 hover:bg-violet-600 hover:text-white transition-all"><i class="fa-brands fa-github"></i></a>
+        <a href="https://linkedin.com/in/SultanBorne" target="_blank" class="w-10 h-10 bg-violet-600/10 rounded-lg flex items-center justify-center text-violet-400 hover:bg-violet-600 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/_sultanborne_" target="_blank" class="w-10 h-10 bg-violet-600/10 rounded-lg flex items-center justify-center text-violet-400 hover:bg-violet-600 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+      
+      <p class="text-sm opacity-70 italic leading-relaxed">"You can contact me throught any channel you prefer for your questions or projects."</p>
+    </div>
+
+    <!-- Hızlı Mesaj Formu -->
+    <div class="contact-card">
+      <h3 class="text-xl text-violet-400 mb-6 font-semibold border-b border-white/10 pb-3">Quic message</h3>
+      <form onsubmit="event.preventDefault(); showUIMessage('Mesajınız başarıyla iletildi!'); this.reset();">
+        <div class="form-group">
+          <label class="text-xs opacity-60 ml-1">Name-Surname</label>
+          <input type="text" placeholder="Name..." required>
+        </div>
+        <div class="form-group">
+          <label class="text-xs opacity-60 ml-1">E-Mail address</label>
+          <input type="email" placeholder="E-Mail..." required>
+        </div>
+        <div class="form-group">
+          <label class="text-xs opacity-60 ml-1">Your message</label>
+          <textarea rows="4" placeholder="Write your message here..." required></textarea>
+        </div>
+        <button type="submit" class="w-full bg-violet-600 text-white font-bold py-3 rounded-xl hover:bg-violet-500 transition-all shadow-lg flex items-center justify-center gap-2">
+          <span>Send</span>
+          <i class="fa-solid fa-paper-plane text-sm"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOKASYONLAR -->
+  <div class="mt-16">
+    <h2 class="text-2xl font-bold text-center mb-8 text-violet-400">Location</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div class="map-container shadow-xl group">
+        <div class="map-label">SİNOP</div>
+        <iframe src="https://maps.google.com/maps?q=sinop&t=&z=10&ie=UTF8&iwloc=&output=embed" class="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700"></iframe>
+      </div>
+      <div class="map-container shadow-xl group">
+        <div class="map-label">İSTANBUL</div>
+        <iframe src="https://maps.google.com/maps?q=istanbul&t=&z=10&ie=UTF8&iwloc=&output=embed" class="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700"></iframe>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- CHATBOT -->
+<div id="chatbot-window">
+  <div class="bg-violet-600 p-4 text-white flex justify-between items-center">
+    <span class="font-bold">💎 BRN Assistant</span>
+    <button onclick="toggleChat()" class="text-2xl">&times;</button>
+  </div>
+  <div id="chat-body" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 text-sm">
+    <div class="bg-white/10 p-3 rounded-xl self-start">Hi! You can ask questions about how to contact sultan or about her social media addresses</div>
+    <div class="flex flex-wrap gap-2 mt-2">
+        <div class="suggested-question" onclick="askQuestion('İletişim bilgileri?')">ommunication </div>
+        <div class="suggested-question" onclick="askQuestion('Sosyal medya?')">social medi</div>
+        <div class="suggested-question" onclick="askQuestion('Nereden yazabilirim?')">Message</div>
+        <div class="suggested-question" onclick="askQuestion('Nerede okuyor?')">education </div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="write..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button onclick="sendMessage()" class="bg-violet-500 p-2 rounded-lg text-white w-9 h-9 flex items-center justify-center"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+<button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-violet-600 rounded-full text-white shadow-xl z-[2001] flex items-center justify-center text-xl hover:scale-110 transition-transform">
+  <i class="fa-solid fa-comments"></i>
+</button>
+
+<footer class="mt-12 border-t border-white/5 py-12">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
+    <div class="flex gap-6 items-center justify-center md:justify-start">
+      <a href="https://github.com/sultanbrn76-afk" target="_blank" class="text-violet-400 hover:text-violet-200 transition-colors text-xl"><i class="fa-brands fa-github"></i></a>
+      <a href="https://linkedin.com/in/SultanBorne" target="_blank" class="text-violet-400 hover:text-violet-200 transition-colors text-xl"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="https://instagram.com/_sultanborne_" target="_blank" class="text-violet-400 hover:text-violet-200 transition-colors text-xl"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+    <p class="opacity-60 text-xs text-center whitespace-nowrap">© 2025 — 💎 BRN RİGHTS RESERVED</p>
+    <div class="hidden md:block"></div>
+  </div>
+</footer>
+
+<script>
+  /* TEMA YÖNETİMİ */
+  const themeIcon = document.getElementById('theme-icon');
+  
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.body.classList.add('light-mode');
+      themeIcon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+      document.body.classList.remove('light-mode');
+      themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+  }
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    themeIcon.classList.toggle('fa-moon', !isLight);
+    themeIcon.classList.toggle('fa-sun', isLight);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    applyTheme(localStorage.getItem('theme') || 'dark');
+  });
+
+  /* MOBİL MENÜ */
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const icon = document.getElementById('menu-icon');
+    links.classList.toggle('active');
+    if (links.classList.contains('active')) icon.classList.replace('fa-bars', 'fa-xmark');
+    else icon.classList.replace('fa-xmark', 'fa-bars');
+  }
+
+  function showUIMessage(text) {
+    const msg = document.getElementById('ui-message');
+    msg.textContent = text;
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 3000);
+  }
+
+  /* ASCII ANİMASYONU */
+  const canvas = document.getElementById('ascii-bg'), ctx = canvas.getContext('2d');
+  let particles = [];
+  const mouse = { x: null, y: null, radius: 100 };
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+  class AsciiParticle {
+    constructor(x, y) { 
+        this.x = x; this.y = y; this.bx = x; this.by = y; 
+        this.c = "01<>{}$#!"[Math.floor(Math.random() * 9)]; 
+        this.d = Math.random() * 20 + 5; 
+    }
+    draw() { 
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--ascii-color').trim(); 
+      ctx.font = '13px monospace'; ctx.fillText(this.c, this.x, this.y); 
+    }
+    update() {
+      let dx = mouse.x - this.x, dy = mouse.y - this.y, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < mouse.radius) {
+        let f = (mouse.radius - dist) / mouse.radius;
+        this.x -= (dx / dist) * f * this.d;
+        this.y -= (dy / dist) * f * this.d;
+      } else {
+        this.x -= (this.x - this.bx) / 15;
+        this.y -= (this.y - this.by) / 15;
+      }
+    }
+  }
+
+  function initASCII() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    particles = [];
+    for (let y = 0; y < canvas.height; y += 45) {
+      for (let x = 0; x < canvas.width; x += 45) { particles.push(new AsciiParticle(x, y)); }
+    }
+  }
+
+  function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+  initASCII(); animate();
+  window.addEventListener('resize', initASCII);
+
+  /* CHATBOT LOGIC */
+  const responses = {
+   "contact": "You can reach me at sultan.brn.76@gmail.com or through the form here.",
+"social": "Active on GitHub, LinkedIn and Instagram under the username 'sultanbrn'.",
+"message": "You can send a direct message using the 'Quick Message' form on this page.",
+"technology": "Uses Python, React, C#, PHP and MySQL technologies.",
+"who": "Sultan Borne is a Sinop University student and a software developer.",
+"university": "Studies in the Internet and Network Technologies department at Sinop University.",
+"language": "Speaks Turkish, Kurdish and English at B2 level.",
+"goal": "Primary goals include cybersecurity and learning new languages.",
+"highschool": "Graduate of Sancaktepe 75th Year DMO MTAL in Information Technologies.",
+"interest": "Interested in technology, networking, gaming and music.",
+"greetings": "Peace be upon you.",
+"short_greetings": "Peace."
+
+  };
+
+  function toggleChat() { 
+    const win = document.getElementById('chatbot-window'); 
+    win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; 
+  }
+
+  function askQuestion(q) {
+    document.getElementById('chat-input').value = q;
+    sendMessage();
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input'), body = document.getElementById('chat-body');
+    const msg = input.value.trim().toLowerCase();
+    if (!msg) return;
+
+    const userDiv = document.createElement('div');
+    userDiv.className = "bg-violet-600 text-white p-2 rounded-xl self-end max-w-[85%]";
+    userDiv.textContent = input.value;
+    body.appendChild(userDiv);
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      let text = "Anlayamadım, iletişim veya eğitim gibi konularda sorular sorabilirsiniz.";
+      for(let k in responses) { if(msg.includes(k)) { text = responses[k]; break; } }
+      const botDiv = document.createElement('div');
+      botDiv.className = "bg-white/10 p-3 rounded-xl self-start max-w-[85%]";
+      botDiv.textContent = text;
+      body.appendChild(botDiv);
+      body.scrollTop = body.scrollHeight;
+    }, 800);
+  }
+</script>
+</body>
+</html>
